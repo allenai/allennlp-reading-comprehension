@@ -4,7 +4,7 @@ import pytest
 from allennlp.common import Params
 from allennlp.common.util import ensure_list
 
-from allennlp_reading_comprehension.data.dataset_readers import DropReader
+from allennlp_reading_comprehension.dataset_readers import DropReader
 from tests import FIXTURES_ROOT
 
 
