@@ -13,8 +13,8 @@ from allennlp.modules.matrix_attention.legacy_matrix_attention import LegacyMatr
 from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
 from allennlp.training.metrics import BooleanAccuracy, CategoricalAccuracy
 
-from allennlp_reading_comprehension.models.util import get_best_span
-from allennlp_reading_comprehension.eval import SquadEmAndF1
+from allennlp_rc.models.util import get_best_span
+from allennlp_rc.eval import SquadEmAndF1
 
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name

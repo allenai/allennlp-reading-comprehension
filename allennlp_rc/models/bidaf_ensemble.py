@@ -10,9 +10,9 @@ from allennlp.models.model import Model
 from allennlp.common import Params
 from allennlp.data import Vocabulary
 
-from allennlp_reading_comprehension.models.bidaf import BidirectionalAttentionFlow
-from allennlp_reading_comprehension.models.util import get_best_span
-from allennlp_reading_comprehension.eval import SquadEmAndF1
+from allennlp_rc.models.bidaf import BidirectionalAttentionFlow
+from allennlp_rc.models.util import get_best_span
+from allennlp_rc.eval import SquadEmAndF1
 
 @Model.register("bidaf-ensemble", exist_ok=True)
 class BidafEnsemble(Ensemble):

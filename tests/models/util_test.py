@@ -3,7 +3,7 @@ from allennlp.common.testing import AllenNlpTestCase
 from numpy.testing import assert_almost_equal
 import torch
 
-from allennlp_reading_comprehension.models.util import get_best_span
+from allennlp_rc.models.util import get_best_span
 from tests import FIXTURES_ROOT
 
 class TestRcUtil(AllenNlpTestCase):

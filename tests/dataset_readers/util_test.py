@@ -2,7 +2,7 @@
 from allennlp.common.testing import AllenNlpTestCase
 from allennlp.data.tokenizers import WordTokenizer
 
-from allennlp_reading_comprehension.dataset_readers import util
+from allennlp_rc.dataset_readers import util
 
 class TestReadingComprehensionUtil(AllenNlpTestCase):
     def test_char_span_to_token_span_handles_easy_cases(self):
