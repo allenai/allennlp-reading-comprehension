@@ -6,19 +6,20 @@ import numpy
 from numpy.testing import assert_almost_equal
 
 from allennlp.common import Params
+from allennlp.common.testing import ModelTestCase
 from allennlp.data import DatasetReader, Vocabulary
 from allennlp.data.dataset import Batch
 from allennlp.models import Model
 from allennlp.data.iterators import BasicIterator
 from allennlp.training import Trainer
 
-from allennlp_reading_comprehension.common.testing import ReadingComprehensionModelTestCase
+from tests import FIXTURES_ROOT
 
-class QaNetTest(ReadingComprehensionModelTestCase):
+class QaNetTest(ModelTestCase):
     def setUp(self):
         super().setUp()
-        self.set_up_model(self.FIXTURES_ROOT / 'qanet' / 'experiment.json',
-                          self.FIXTURES_ROOT / 'data' / 'squad.json')
+        self.set_up_model(FIXTURES_ROOT / 'qanet' / 'experiment.json',
+                          FIXTURES_ROOT / 'data' / 'squad.json')
 
     def test_forward_pass_runs_correctly(self):
         batch = Batch(self.instances)
@@ -80,7 +81,7 @@ class QaNetTest(ReadingComprehensionModelTestCase):
         params = Params.from_file(self.param_file)
         reader = DatasetReader.from_params(params['dataset_reader'])
         reader._token_indexers = {'tokens': reader._token_indexers['tokens']}
-        self.instances = reader.read(self.FIXTURES_ROOT / 'data' / 'squad.json')
+        self.instances = reader.read(FIXTURES_ROOT / 'data' / 'squad.json')
         vocab = Vocabulary.from_instances(self.instances)
         for instance in self.instances:
             instance.index_fields(vocab)

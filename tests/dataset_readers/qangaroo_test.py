@@ -4,14 +4,14 @@ import pytest
 from allennlp.common import Params
 from allennlp.common.util import ensure_list
 
-from allennlp_reading_comprehension.common.testing import AllenNlpReadingComprehensionTestCase
 from allennlp_reading_comprehension.data.dataset_readers import QangarooReader
+from tests import FIXTURES_ROOT
 
 class TestQangarooReader:
     @pytest.mark.parametrize('lazy', (True, False))
     def test_read_from_file(self, lazy):
         reader = QangarooReader(lazy=lazy)
-        instances = ensure_list(reader.read(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'qangaroo.json'))
+        instances = ensure_list(reader.read(FIXTURES_ROOT / 'data' / 'qangaroo.json'))
         assert len(instances) == 2
 
         assert [t.text for t in instances[0].fields['candidates'][3]] == ['german', 'confederation']

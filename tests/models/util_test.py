@@ -1,11 +1,12 @@
 # pylint: disable=no-self-use
+from allennlp.common.testing import AllenNlpTestCase
 from numpy.testing import assert_almost_equal
 import torch
+
 from allennlp_reading_comprehension.models.util import get_best_span
+from tests import FIXTURES_ROOT
 
-from allennlp_reading_comprehension.common.testing import AllenNlpReadingComprehensionTestCase
-
-class TestRcUtil(AllenNlpReadingComprehensionTestCase):
+class TestRcUtil(AllenNlpTestCase):
     def test_get_best_span(self):
         span_begin_probs = torch.FloatTensor([[0.1, 0.3, 0.05, 0.3, 0.25]]).log()
         span_end_probs = torch.FloatTensor([[0.65, 0.05, 0.2, 0.05, 0.05]]).log()

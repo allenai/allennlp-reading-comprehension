@@ -1,14 +1,15 @@
 # pylint: disable=no-self-use,invalid-name
 
-from allennlp_reading_comprehension.common.testing import ReadingComprehensionModelTestCase
+from allennlp.common.testing import ModelTestCase
 from allennlp.data.dataset import Batch
 
+from tests import FIXTURES_ROOT
 
-class DialogQATest(ReadingComprehensionModelTestCase):
+class DialogQATest(ModelTestCase):
     def setUp(self):
         super(DialogQATest, self).setUp()
-        self.set_up_model(self.FIXTURES_ROOT / 'dialog_qa' / 'experiment.json',
-                          self.FIXTURES_ROOT / 'data' / 'quac_sample.json')
+        self.set_up_model(FIXTURES_ROOT / 'dialog_qa' / 'experiment.json',
+                          FIXTURES_ROOT / 'data' / 'quac_sample.json')
         self.batch = Batch(self.instances)
         self.batch.index_instances(self.vocab)
 

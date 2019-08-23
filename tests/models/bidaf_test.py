@@ -7,19 +7,19 @@ import torch
 
 from allennlp.common import Params
 from allennlp.common.checks import ConfigurationError
-from allennlp_reading_comprehension.common.testing import ReadingComprehensionModelTestCase
+from allennlp.common.testing import ModelTestCase
 from allennlp.models import Model
 from allennlp.data import DatasetReader, Vocabulary
 from allennlp.data.dataset import Batch
 
 from allennlp_reading_comprehension.models import BidirectionalAttentionFlow
+from tests import FIXTURES_ROOT
 
-
-class BidirectionalAttentionFlowTest(ReadingComprehensionModelTestCase):
+class BidirectionalAttentionFlowTest(ModelTestCase):
     def setUp(self):
         super(BidirectionalAttentionFlowTest, self).setUp()
-        self.set_up_model(self.FIXTURES_ROOT / 'bidaf' / 'experiment.json',
-                          self.FIXTURES_ROOT / 'data' / 'squad.json')
+        self.set_up_model(FIXTURES_ROOT / 'bidaf' / 'experiment.json',
+                          FIXTURES_ROOT / 'data' / 'squad.json')
 
     def test_forward_pass_runs_correctly(self):
         batch = Batch(self.instances)
@@ -71,7 +71,7 @@ class BidirectionalAttentionFlowTest(ReadingComprehensionModelTestCase):
         params = Params.from_file(self.param_file)
         reader = DatasetReader.from_params(params['dataset_reader'])
         reader._token_indexers = {'tokens': reader._token_indexers['tokens']}
-        self.instances = reader.read(self.FIXTURES_ROOT / 'data' / 'squad.json')
+        self.instances = reader.read(FIXTURES_ROOT / 'data' / 'squad.json')
         vocab = Vocabulary.from_instances(self.instances)
         for instance in self.instances:
             instance.index_fields(vocab)
