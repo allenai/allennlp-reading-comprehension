@@ -15,7 +15,7 @@ from allennlp.data.tokenizers import Token, Tokenizer, WordTokenizer
 from overrides import overrides
 from word2number.w2n import word_to_num
 
-from allennlp_reading_comprehension.dataset_readers.util import (IGNORED_TOKENS,
+from allennlp_rc.dataset_readers.util import (IGNORED_TOKENS,
                                                                       STRIPPED_CHARACTERS,
                                                                       make_reading_comprehension_instance,
                                                                       split_tokens_by_hyphen)

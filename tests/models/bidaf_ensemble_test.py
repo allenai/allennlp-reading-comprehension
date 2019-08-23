@@ -4,7 +4,7 @@ import torch
 
 from allennlp.common.testing import ModelTestCase
 from allennlp.data.dataset import Batch
-from allennlp_reading_comprehension.models.bidaf_ensemble import BidafEnsemble, ensemble
+from allennlp_rc.models.bidaf_ensemble import BidafEnsemble, ensemble
 
 from tests import FIXTURES_ROOT
 

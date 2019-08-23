@@ -13,8 +13,8 @@ from allennlp.modules.matrix_attention.matrix_attention import MatrixAttention
 from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
 from allennlp.nn.util import masked_softmax
 
-from allennlp_reading_comprehension.models.util import get_best_span
-from allennlp_reading_comprehension.eval import DropEmAndF1
+from allennlp_rc.models.util import get_best_span
+from allennlp_rc.eval import DropEmAndF1
 
 logger = logging.getLogger(__name__)
 

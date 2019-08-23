@@ -4,7 +4,7 @@ import pytest
 from allennlp.common import Params
 from allennlp.common.util import ensure_list
 
-from allennlp_reading_comprehension.dataset_readers import TriviaQaReader
+from allennlp_rc.dataset_readers import TriviaQaReader
 from tests import FIXTURES_ROOT
 
 class TestTriviaQaReader:
