@@ -14,7 +14,7 @@ from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
 from allennlp.nn.util import masked_softmax
 
 from allennlp_reading_comprehension.models.util import get_best_span
-from allennlp_reading_comprehension.training.metrics.drop_em_and_f1 import DropEmAndF1
+from allennlp_reading_comprehension.eval import DropEmAndF1
 
 logger = logging.getLogger(__name__)
 
