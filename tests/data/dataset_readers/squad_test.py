@@ -4,15 +4,14 @@ import pytest
 from allennlp.common import Params
 from allennlp.common.util import ensure_list
 
-from allennlp_reading_comprehension.common.testing import AllenNlpReadingComprehensionTestCase
 from allennlp_reading_comprehension.data.dataset_readers import SquadReader
-
+from tests import FIXTURES_ROOT
 
 class TestSquadReader:
     @pytest.mark.parametrize("lazy", (True, False))
     def test_read_from_file(self, lazy):
         reader = SquadReader(lazy=lazy)
-        instances = ensure_list(reader.read(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'squad.json'))
+        instances = ensure_list(reader.read(FIXTURES_ROOT / 'data' / 'squad.json'))
         assert len(instances) == 5
 
         assert [t.text for t in instances[0].fields["question"].tokens[:3]] == ["To", "whom", "did"]
@@ -51,7 +50,7 @@ class TestSquadReader:
         reader = SquadReader(passage_length_limit=30,
                              question_length_limit=10,
                              skip_invalid_examples=True)
-        instances = ensure_list(reader.read(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'squad.json'))
+        instances = ensure_list(reader.read(FIXTURES_ROOT / 'data' / 'squad.json'))
         assert len(instances[0].fields["question"].tokens) == 10
         assert len(instances[0].fields["passage"].tokens) == 30
         # invalid examples where all the answers exceed the passage length should be skipped.
@@ -61,7 +60,7 @@ class TestSquadReader:
         reader = SquadReader(passage_length_limit=30,
                              question_length_limit=10,
                              skip_invalid_examples=False)
-        instances = ensure_list(reader.read(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'squad.json'))
+        instances = ensure_list(reader.read(FIXTURES_ROOT / 'data' / 'squad.json'))
         assert len(instances[0].fields["question"].tokens) == 10
         assert len(instances[0].fields["passage"].tokens) == 30
         # invalid examples should not be skipped.
@@ -72,7 +71,7 @@ class TestSquadReader:
                                        question_length_limit=10,
                                        skip_invalid_examples=False)
         instances_unlimited = ensure_list(
-                reader_unlimited.read(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'squad.json'))
+                reader_unlimited.read(FIXTURES_ROOT / 'data' / 'squad.json'))
         for instance_x, instance_y in zip(instances, instances_unlimited):
             print(instance_x.fields["metadata"]["answer_texts"])
             assert set(instance_x.fields["metadata"]["answer_texts"]) \

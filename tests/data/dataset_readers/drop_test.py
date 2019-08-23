@@ -4,15 +4,15 @@ import pytest
 from allennlp.common import Params
 from allennlp.common.util import ensure_list
 
-from allennlp_reading_comprehension.common.testing import AllenNlpReadingComprehensionTestCase
 from allennlp_reading_comprehension.data.dataset_readers import DropReader
+from tests import FIXTURES_ROOT
 
 
 class TestDropReader:
     @pytest.mark.parametrize("lazy", (True, False))
     def test_read_from_file(self, lazy):
         reader = DropReader(lazy=lazy)
-        instances = ensure_list(reader.read(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'drop.json'))
+        instances = ensure_list(reader.read(FIXTURES_ROOT / 'data' / 'drop.json'))
         assert len(instances) == 19
 
         instance = instances[0]
@@ -67,7 +67,7 @@ class TestDropReader:
 
     def test_read_in_bert_format(self):
         reader = DropReader(instance_format="bert")
-        instances = ensure_list(reader.read(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'drop.json'))
+        instances = ensure_list(reader.read(FIXTURES_ROOT / 'data' / 'drop.json'))
         assert len(instances) == 19
 
         print(instances[0])
@@ -104,7 +104,7 @@ class TestDropReader:
 
     def test_read_in_squad_format(self):
         reader = DropReader(instance_format="squad")
-        instances = ensure_list(reader.read(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'drop.json'))
+        instances = ensure_list(reader.read(FIXTURES_ROOT / 'data' / 'drop.json'))
         assert len(instances) == 19
 
         print(instances[0])

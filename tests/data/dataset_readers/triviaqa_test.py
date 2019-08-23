@@ -4,14 +4,14 @@ import pytest
 from allennlp.common import Params
 from allennlp.common.util import ensure_list
 
-from allennlp_reading_comprehension.common.testing import AllenNlpReadingComprehensionTestCase
 from allennlp_reading_comprehension.data.dataset_readers import TriviaQaReader
+from tests import FIXTURES_ROOT
 
 class TestTriviaQaReader:
     @pytest.mark.parametrize("lazy", (True, False))
     def test_read(self, lazy):
         params = Params({
-                'base_tarball_path': str(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'triviaqa-sample.tgz'),
+                'base_tarball_path': str(FIXTURES_ROOT / 'data' / 'triviaqa-sample.tgz'),
                 'lazy': lazy
                 })
         reader = TriviaQaReader.from_params(params)

@@ -2,15 +2,17 @@
 import numpy
 import torch
 
-from allennlp_reading_comprehension.common.testing import ReadingComprehensionModelTestCase
+from allennlp.common.testing import ModelTestCase
 from allennlp.data.dataset import Batch
 from allennlp_reading_comprehension.models.bidaf_ensemble import BidafEnsemble, ensemble
 
-class BidafEnsembleTest(ReadingComprehensionModelTestCase):
+from tests import FIXTURES_ROOT
+
+class BidafEnsembleTest(ModelTestCase):
     def setUp(self):
         super(BidafEnsembleTest, self).setUp()
-        self.set_up_model(self.FIXTURES_ROOT / 'bidaf' / 'experiment.json',
-                          self.FIXTURES_ROOT / 'data' /  'squad.json')
+        self.set_up_model(FIXTURES_ROOT / 'bidaf' / 'experiment.json',
+                          FIXTURES_ROOT / 'data' /  'squad.json')
         self.model.eval()
 
     def test_ensemble_chooses_highest_average_confidence_2(self):

@@ -4,15 +4,15 @@ import pytest
 from allennlp.common import Params
 from allennlp.common.util import ensure_list
 
-from allennlp_reading_comprehension.common.testing import AllenNlpReadingComprehensionTestCase
 from allennlp_reading_comprehension.data.dataset_readers import QuACReader
+from tests import FIXTURES_ROOT
 
 class TestQuACReader:
     @pytest.mark.parametrize("lazy", (True, False))
     def test_read(self, lazy):
         params = Params({'lazy': lazy, 'num_context_answers': 2,})
         reader = QuACReader.from_params(params)
-        instances = reader.read(str(AllenNlpReadingComprehensionTestCase.FIXTURES_ROOT / 'data' / 'quac_sample.json'))
+        instances = reader.read(str(FIXTURES_ROOT / 'data' / 'quac_sample.json'))
         instances = ensure_list(instances)
 
         assert instances[0].fields["question"].sequence_length() == 6

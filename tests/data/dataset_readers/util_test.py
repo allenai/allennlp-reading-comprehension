@@ -1,10 +1,10 @@
 # pylint: disable=no-self-use,invalid-name
+from allennlp.common.testing import AllenNlpTestCase
 from allennlp.data.tokenizers import WordTokenizer
 
 from allennlp_reading_comprehension.data.dataset_readers import util
-from allennlp_reading_comprehension.common.testing import AllenNlpReadingComprehensionTestCase
 
-class TestReadingComprehensionUtil(AllenNlpReadingComprehensionTestCase):
+class TestReadingComprehensionUtil(AllenNlpTestCase):
     def test_char_span_to_token_span_handles_easy_cases(self):
         # These are _inclusive_ spans, on both sides.
         tokenizer = WordTokenizer()
