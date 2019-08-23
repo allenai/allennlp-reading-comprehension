@@ -13,7 +13,7 @@ from allennlp.training.metrics import BooleanAccuracy, CategoricalAccuracy
 from allennlp.nn.util import masked_softmax
 
 from allennlp_reading_comprehension.models.util import get_best_span
-from allennlp_reading_comprehension.training.metrics import SquadEmAndF1
+from allennlp_reading_comprehension.eval import SquadEmAndF1
 
 @Model.register("qanet", exist_ok=True)
 class QaNet(Model):

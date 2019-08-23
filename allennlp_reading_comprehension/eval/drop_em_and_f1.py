@@ -3,9 +3,9 @@ from typing import Tuple, List, Union
 from allennlp.training.metrics.metric import Metric
 from overrides import overrides
 
-from allennlp_reading_comprehension.tools.drop_eval import (get_metrics as drop_em_and_f1,
-                                                            answer_json_to_strings)
-from allennlp_reading_comprehension.tools.squad_eval import metric_max_over_ground_truths
+from allennlp_reading_comprehension.eval.drop_eval import (get_metrics as drop_em_and_f1,
+                                                           answer_json_to_strings)
+from allennlp_reading_comprehension.eval.squad_eval import metric_max_over_ground_truths
 
 
 @Metric.register("drop", exist_ok=True)

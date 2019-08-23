@@ -12,7 +12,7 @@ from allennlp.data import Vocabulary
 
 from allennlp_reading_comprehension.models.bidaf import BidirectionalAttentionFlow
 from allennlp_reading_comprehension.models.util import get_best_span
-from allennlp_reading_comprehension.training.metrics import SquadEmAndF1
+from allennlp_reading_comprehension.eval import SquadEmAndF1
 
 @Model.register("bidaf-ensemble", exist_ok=True)
 class BidafEnsemble(Ensemble):
