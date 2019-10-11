@@ -1,10 +1,10 @@
-# pylint: disable=no-self-use
-from allennlp.common.testing import AllenNlpTestCase
 from numpy.testing import assert_almost_equal
 import torch
+from allennlp.common.testing import AllenNlpTestCase
 
 from allennlp_rc.models.util import get_best_span
 from tests import FIXTURES_ROOT
+
 
 class TestRcUtil(AllenNlpTestCase):
     def test_get_best_span(self):

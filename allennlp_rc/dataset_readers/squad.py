@@ -14,7 +14,7 @@ from allennlp.data.tokenizers import Token, Tokenizer, WordTokenizer
 logger = logging.getLogger(__name__)
 
 
-@DatasetReader.register("squad", exist_ok=True)
+@DatasetReader.register("squad")
 class SquadReader(DatasetReader):
     """
     Reads a JSON-formatted SQuAD file and returns a ``Dataset`` where the ``Instances`` have four

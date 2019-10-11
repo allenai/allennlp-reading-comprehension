@@ -1,19 +1,20 @@
 import json
 import logging
 
+from typing import Dict, List
+from overrides import overrides
+
 from allennlp.common.file_utils import cached_path
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
 from allennlp.data.instance import Instance
 from allennlp.data.fields import Field, TextField, ListField, MetadataField, IndexField
 from allennlp.data.token_indexers import TokenIndexer, SingleIdTokenIndexer
 from allennlp.data.tokenizers import Tokenizer, WordTokenizer
-from typing import Dict, List
-from overrides import overrides
 
-logger = logging.getLogger(__name__) # pylint: disable=invalid-name
+logger = logging.getLogger(__name__)
 
 
-@DatasetReader.register("qangaroo", exist_ok=True)
+@DatasetReader.register("qangaroo")
 class QangarooReader(DatasetReader):
     """
     Reads a JSON-formatted Qangaroo file and returns a ``Dataset`` where the ``Instances`` have six
@@ -30,14 +31,17 @@ class QangarooReader(DatasetReader):
         We similarly use this for both the question and the passage.  See :class:`TokenIndexer`.
         Default is ``{"tokens": SingleIdTokenIndexer()}``.
     """
-    def __init__(self,
-                 tokenizer: Tokenizer = None,
-                 token_indexers: Dict[str, TokenIndexer] = None,
-                 lazy: bool = False) -> None:
+
+    def __init__(
+        self,
+        tokenizer: Tokenizer = None,
+        token_indexers: Dict[str, TokenIndexer] = None,
+        lazy: bool = False,
+    ) -> None:
 
         super().__init__(lazy)
         self._tokenizer = tokenizer or WordTokenizer()
-        self._token_indexers = token_indexers or {'tokens': SingleIdTokenIndexer()}
+        self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
 
     @overrides
     def _read(self, file_path: str):
@@ -52,38 +56,52 @@ class QangarooReader(DatasetReader):
         logger.info("Reading the dataset")
         for sample in dataset:
 
-            instance = self.text_to_instance(sample['candidates'], sample['query'], sample['supports'],
-                                             sample['id'], sample['answer'],
-                                             sample['annotations'] if 'annotations' in sample else [[]])
+            instance = self.text_to_instance(
+                sample["candidates"],
+                sample["query"],
+                sample["supports"],
+                sample["id"],
+                sample["answer"],
+                sample["annotations"] if "annotations" in sample else [[]],
+            )
 
             yield instance
 
     @overrides
-    def text_to_instance(self, # type: ignore
-                         candidates: List[str],
-                         query: str,
-                         supports: List[str],
-                         _id: str = None,
-                         answer: str = None,
-                         annotations: List[List[str]] = None) -> Instance:
+    def text_to_instance(
+        self,  # type: ignore
+        candidates: List[str],
+        query: str,
+        supports: List[str],
+        _id: str = None,
+        answer: str = None,
+        annotations: List[List[str]] = None,
+    ) -> Instance:
 
-        # pylint: disable=arguments-differ
         fields: Dict[str, Field] = {}
 
-        candidates_field = ListField([TextField(candidate, self._token_indexers)
-                                      for candidate in self._tokenizer.batch_tokenize(candidates)])
+        candidates_field = ListField(
+            [
+                TextField(candidate, self._token_indexers)
+                for candidate in self._tokenizer.batch_tokenize(candidates)
+            ]
+        )
 
-        fields['query'] = TextField(self._tokenizer.tokenize(query), self._token_indexers)
+        fields["query"] = TextField(self._tokenizer.tokenize(query), self._token_indexers)
 
-        fields['supports'] = ListField([TextField(support, self._token_indexers)
-                                        for support in self._tokenizer.batch_tokenize(supports)])
+        fields["supports"] = ListField(
+            [
+                TextField(support, self._token_indexers)
+                for support in self._tokenizer.batch_tokenize(supports)
+            ]
+        )
 
-        fields['answer'] = TextField(self._tokenizer.tokenize(answer), self._token_indexers)
+        fields["answer"] = TextField(self._tokenizer.tokenize(answer), self._token_indexers)
 
-        fields['answer_index'] = IndexField(candidates.index(answer), candidates_field)
+        fields["answer_index"] = IndexField(candidates.index(answer), candidates_field)
 
-        fields['candidates'] = candidates_field
+        fields["candidates"] = candidates_field
 
-        fields['metadata'] = MetadataField({'annotations': annotations, 'id': _id})
+        fields["metadata"] = MetadataField({"annotations": annotations, "id": _id})
 
         return Instance(fields)

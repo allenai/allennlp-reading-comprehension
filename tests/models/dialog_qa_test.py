@@ -1,15 +1,16 @@
-# pylint: disable=no-self-use,invalid-name
-
 from allennlp.common.testing import ModelTestCase
 from allennlp.data.dataset import Batch
 
 from tests import FIXTURES_ROOT
 
+
 class DialogQATest(ModelTestCase):
     def setUp(self):
-        super(DialogQATest, self).setUp()
-        self.set_up_model(FIXTURES_ROOT / 'dialog_qa' / 'experiment.json',
-                          FIXTURES_ROOT / 'data' / 'quac_sample.json')
+        super().setUp()
+        self.set_up_model(
+            FIXTURES_ROOT / "dialog_qa" / "experiment.json",
+            FIXTURES_ROOT / "data" / "quac_sample.json",
+        )
         self.batch = Batch(self.instances)
         self.batch.index_instances(self.vocab)
 
