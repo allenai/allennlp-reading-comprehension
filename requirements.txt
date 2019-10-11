@@ -1,1 +1,4 @@
 git+git://github.com/allenai/allennlp.git@93024e53c1445cb4630ee5c07926abff8943715f
+
+flake8
+black
