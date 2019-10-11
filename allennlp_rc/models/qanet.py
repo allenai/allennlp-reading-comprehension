@@ -9,7 +9,7 @@ from allennlp.modules import Highway
 from allennlp.modules import Seq2SeqEncoder, TextFieldEmbedder
 from allennlp.modules.matrix_attention.matrix_attention import MatrixAttention
 from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
-from allennlp.training.metrics import BooleanAccuracy, CategoricalAccuracy, SquadEmAndF1
+from allennlp.training.metrics import BooleanAccuracy, CategoricalAccuracy
 from allennlp.nn.util import masked_softmax
 
 from allennlp_rc.models.util import get_best_span
