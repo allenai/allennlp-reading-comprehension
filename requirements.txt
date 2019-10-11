@@ -1,6 +1,2 @@
 # To be changed to allennlp>=1.0 once that's released.
 git+git://github.com/matt-gardner/allennlp.git@e7c8bcdb250068389e5c806a634d1f9ff357ddc8
-
-flake8
-black
-mypy
