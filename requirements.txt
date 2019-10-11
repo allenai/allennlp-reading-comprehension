@@ -1,1 +1,1 @@
-git+git://github.com/allenai/allennlp.git@7738cb586a08161bf49275740b27975213a0e16d
+git+git://github.com/allenai/allennlp.git@93024e53c1445cb4630ee5c07926abff8943715f
