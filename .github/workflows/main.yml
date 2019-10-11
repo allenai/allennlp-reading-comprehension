@@ -21,7 +21,7 @@ jobs:
         pip install pytest pytest-cov flake8 black mypy
     - name: Run tests
       run: |
-        pytest --cov=allennlp_semparse/ --cov-report=xml
+        pytest --cov=allennlp_rc/ --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1.0.2
       with:
@@ -32,4 +32,4 @@ jobs:
         black -v --check .
     - name: Type check
       run: |
-        mypy allennlp_semparse --ignore-missing-imports --no-strict-optional --no-site-packages
+        mypy allennlp_rc --ignore-missing-imports --no-strict-optional --no-site-packages
