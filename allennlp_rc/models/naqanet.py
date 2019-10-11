@@ -5,7 +5,6 @@ import torch
 
 from allennlp.data import Vocabulary
 from allennlp.models.model import Model
-from allennlp.models.reading_comprehension.util import get_best_span
 from allennlp.modules import Highway
 from allennlp.nn.activations import Activation
 from allennlp.modules.feedforward import FeedForward
@@ -13,7 +12,9 @@ from allennlp.modules import Seq2SeqEncoder, TextFieldEmbedder
 from allennlp.modules.matrix_attention.matrix_attention import MatrixAttention
 from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
 from allennlp.nn.util import masked_softmax
-from allennlp.training.metrics.drop_em_and_f1 import DropEmAndF1
+
+from allennlp_rc.models.util import get_best_span
+from allennlp_rc.eval import DropEmAndF1
 
 logger = logging.getLogger(__name__)
 

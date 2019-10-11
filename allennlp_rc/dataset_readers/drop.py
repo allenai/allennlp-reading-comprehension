@@ -20,16 +20,16 @@ from allennlp.data.fields import (
     IndexField,
 )
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
-from allennlp.data.dataset_readers.reading_comprehension.util import (
+from allennlp.data.instance import Instance
+from allennlp.data.token_indexers import SingleIdTokenIndexer, TokenIndexer
+from allennlp.data.tokenizers import Token, Tokenizer, WordTokenizer
+
+from allennlp_rc.dataset_readers.util import (
     IGNORED_TOKENS,
     STRIPPED_CHARACTERS,
     make_reading_comprehension_instance,
     split_tokens_by_hyphen,
 )
-from allennlp.data.instance import Instance
-from allennlp.data.token_indexers import SingleIdTokenIndexer, TokenIndexer
-from allennlp.data.tokenizers import Token, Tokenizer, WordTokenizer
-
 
 logger = logging.getLogger(__name__)
 

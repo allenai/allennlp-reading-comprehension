@@ -13,8 +13,9 @@ from allennlp.modules import Seq2SeqEncoder, TimeDistributed, TextFieldEmbedder
 from allennlp.modules.input_variational_dropout import InputVariationalDropout
 from allennlp.modules.matrix_attention.linear_matrix_attention import LinearMatrixAttention
 from allennlp.nn import InitializerApplicator, util
-from allennlp.tools import squad_eval
 from allennlp.training.metrics import Average, BooleanAccuracy, CategoricalAccuracy
+
+from allennlp_rc.eval import squad_eval
 
 logger = logging.getLogger(__name__)
 
