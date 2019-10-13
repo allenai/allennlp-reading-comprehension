@@ -11,9 +11,10 @@ from allennlp.modules import Highway
 from allennlp.modules import Seq2SeqEncoder, SimilarityFunction, TimeDistributed, TextFieldEmbedder
 from allennlp.modules.matrix_attention.legacy_matrix_attention import LegacyMatrixAttention
 from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
-from allennlp.training.metrics import BooleanAccuracy, CategoricalAccuracy, SquadEmAndF1
+from allennlp.training.metrics import BooleanAccuracy, CategoricalAccuracy
 
 from allennlp_rc.models.util import get_best_span
+from allennlp_rc.eval import SquadEmAndF1
 
 logger = logging.getLogger(__name__)
 

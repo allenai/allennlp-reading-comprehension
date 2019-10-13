@@ -71,7 +71,7 @@ class BidirectionalAttentionFlowTest(ModelTestCase):
         params = Params.from_file(self.param_file)
         reader = DatasetReader.from_params(params["dataset_reader"])
         reader._token_indexers = {"tokens": reader._token_indexers["tokens"]}
-        self.instances = reader.read(self.FIXTURES_ROOT / "data" / "squad.json")
+        self.instances = reader.read(FIXTURES_ROOT / "data" / "squad.json")
         vocab = Vocabulary.from_instances(self.instances)
         for instance in self.instances:
             instance.index_fields(vocab)

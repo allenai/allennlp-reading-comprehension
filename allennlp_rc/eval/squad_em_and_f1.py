@@ -6,7 +6,7 @@ from overrides import overrides
 from allennlp_rc.eval import squad_eval
 
 
-@Metric.register("squad", exist_ok=True)
+@Metric.register("squad")
 class SquadEmAndF1(Metric):
     """
     This :class:`Metric` takes the best span string computed by a model, along with the answer

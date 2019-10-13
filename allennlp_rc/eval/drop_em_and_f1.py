@@ -7,7 +7,7 @@ from allennlp_rc.eval.drop_eval import get_metrics as drop_em_and_f1, answer_jso
 from allennlp_rc.eval.squad_eval import metric_max_over_ground_truths
 
 
-@Metric.register("drop", exist_ok=True)
+@Metric.register("drop")
 class DropEmAndF1(Metric):
     """
     This :class:`Metric` takes the best span string computed by a model, along with the answer

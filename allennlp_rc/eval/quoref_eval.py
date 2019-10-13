@@ -8,7 +8,7 @@ from typing import Dict, Tuple, List, Any, Optional
 import argparse
 import numpy as np
 
-from allennlp_rc.tools import drop_eval
+from allennlp_rc.eval import drop_eval
 
 
 def _get_answers_from_data(annotations: Dict[str, Any]) -> Dict[str, List[str]]:
@@ -95,7 +95,6 @@ def evaluate_prediction_file(
 
 
 if __name__ == "__main__":
-    # pylint: disable=invalid-name
     parser = argparse.ArgumentParser(description="Evaluate Quoref predictions")
     parser.add_argument(
         "--gold_path",
