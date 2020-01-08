@@ -1,4 +1,4 @@
 # To be changed to allennlp>=1.0 once that's released.
-git+git://github.com/matt-gardner/allennlp.git@8f54c4b0b1d403275acaa496dd9df80434a75c79
+git+git://github.com/allenai/allennlp.git@bd9fea0a6797877444cc5bdf0a029454c3ee6132
 
 word2number>=1.1

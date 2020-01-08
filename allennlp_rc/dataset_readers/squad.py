@@ -8,7 +8,7 @@ from allennlp.common.file_utils import cached_path
 from allennlp.data.dataset_readers.dataset_reader import DatasetReader
 from allennlp.data.instance import Instance
 from allennlp.data.token_indexers import SingleIdTokenIndexer, TokenIndexer
-from allennlp.data.tokenizers import Token, Tokenizer, WordTokenizer
+from allennlp.data.tokenizers import Token, Tokenizer, SpacyTokenizer
 
 from allennlp_rc.dataset_readers import util
 
@@ -37,9 +37,9 @@ class SquadReader(DatasetReader):
 
     Parameters
     ----------
-    tokenizer : ``Tokenizer``, optional (default=``WordTokenizer()``)
+    tokenizer : ``Tokenizer``, optional (default=``SpacyTokenizer()``)
         We use this ``Tokenizer`` for both the question and the passage.  See :class:`Tokenizer`.
-        Default is ```WordTokenizer()``.
+        Default is ```SpacyTokenizer()``.
     token_indexers : ``Dict[str, TokenIndexer]``, optional
         We similarly use this for both the question and the passage.  See :class:`TokenIndexer`.
         Default is ``{"tokens": SingleIdTokenIndexer()}``.
@@ -64,7 +64,7 @@ class SquadReader(DatasetReader):
         skip_invalid_examples: bool = False,
     ) -> None:
         super().__init__(lazy)
-        self._tokenizer = tokenizer or WordTokenizer()
+        self._tokenizer = tokenizer or SpacyTokenizer()
         self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
         self.passage_length_limit = passage_length_limit
         self.question_length_limit = question_length_limit

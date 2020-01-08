@@ -1,1 +1,2 @@
 from allennlp_rc.predictors.reading_comprehension import ReadingComprehensionPredictor
+from allennlp_rc.predictors.dialog_qa import DialogQAPredictor
