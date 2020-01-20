@@ -22,6 +22,7 @@ class QaNetTest(ModelTestCase):
             FIXTURES_ROOT / "qanet" / "experiment.json", FIXTURES_ROOT / "data" / "squad.json"
         )
 
+    @flaky
     def test_forward_pass_runs_correctly(self):
         batch = Batch(self.instances)
         batch.index_instances(self.vocab)

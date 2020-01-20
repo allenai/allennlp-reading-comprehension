@@ -1,6 +1,6 @@
 import numpy
 import torch
-
+from flaky import flaky
 from allennlp.common.testing import ModelTestCase
 from allennlp.data.dataset import Batch
 
@@ -73,6 +73,7 @@ class BidafEnsembleTest(ModelTestCase):
             ensemble(subresults).data[0].cpu().numpy(), torch.LongTensor([2, 2]).numpy()
         )
 
+    @flaky
     def test_forward_pass_runs_correctly(self):
         """
         Check to make sure a forward pass on an ensemble of two identical copies of a model yields the same
