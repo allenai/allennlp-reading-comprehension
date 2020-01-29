@@ -3,6 +3,7 @@ from allennlp.interpret.attackers.hotflip import DEFAULT_IGNORE_TOKENS
 from allennlp.models import load_archive
 from allennlp.predictors import Predictor
 
+import allennlp_rc
 from tests import FIXTURES_ROOT
 
 

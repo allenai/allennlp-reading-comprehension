@@ -208,7 +208,8 @@ class DialogQA(Model):
         loss : torch.FloatTensor, optional
             A scalar loss to be optimised.
         """
-        batch_size, max_qa_count, max_q_len, _ = question["token_characters"].size()
+        token_character_ids = question["token_characters"]["token_characters"]
+        batch_size, max_qa_count, max_q_len, _ = token_character_ids.size()
         total_qa_count = batch_size * max_qa_count
         qa_mask = torch.ge(followup_list, 0).view(total_qa_count)
         embedded_question = self._text_field_embedder(question, num_wrapping_dims=1)
