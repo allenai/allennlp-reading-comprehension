@@ -5,7 +5,7 @@ Utilities for reading comprehension dataset readers.
 from collections import Counter, defaultdict
 import logging
 import string
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Optional
 
 from allennlp.data.fields import (
     Field,
@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 # These are tokens and characters that are stripped by the standard SQuAD and TriviaQA evaluation
 # scripts.
 IGNORED_TOKENS = {"a", "an", "the"}
-STRIPPED_CHARACTERS = string.punctuation + "".join([u"‘", u"’", u"´", u"`", "_"])
+STRIPPED_CHARACTERS = string.punctuation + "".join(["‘", "’", "´", "`", "_"])
 
 
 def normalize_text(text: str) -> str:
@@ -45,7 +45,7 @@ def normalize_text(text: str) -> str:
 
 
 def char_span_to_token_span(
-    token_offsets: List[Tuple[int, int]], character_span: Tuple[int, int]
+    token_offsets: List[Optional[Tuple[int, int]]], character_span: Tuple[int, int]
 ) -> Tuple[Tuple[int, int], bool]:
     """
     Converts a character span from a passage into the corresponding token span in the tokenized
@@ -77,19 +77,31 @@ def char_span_to_token_span(
     # the tokens that have the same offsets as our span.
     error = False
     start_index = 0
-    while start_index < len(token_offsets) and token_offsets[start_index][0] < character_span[0]:
+    while start_index < len(token_offsets) and (
+        token_offsets[start_index] is None or token_offsets[start_index][0] < character_span[0]
+    ):
         start_index += 1
+    if start_index >= len(token_offsets):
+        raise ValueError(f"Character span %r outside the range of the given tokens.")
     # start_index should now be pointing at the span start index.
     if token_offsets[start_index][0] > character_span[0]:
-        # In this case, a tokenization or labeling issue made us go too far - the character span
-        # we're looking for actually starts in the previous token.  We'll back up one.
+        if start_index <= 0:
+            raise ValueError(f"Character span %r outside the range of the given tokens.")
+        # In this case, a tokenization or labeling issue made us go too far - the character span we're looking for
+        # actually starts in the previous token. We'll back up one. Note that this might have us starting at a None
+        # token.
         logger.debug("Bad labelling or tokenization - start offset doesn't match")
         start_index -= 1
-    if token_offsets[start_index][0] != character_span[0]:
+    if token_offsets[start_index] is None or token_offsets[start_index][0] != character_span[0]:
         error = True
+
     end_index = start_index
-    while end_index < len(token_offsets) and token_offsets[end_index][1] < character_span[1]:
+    while end_index < len(token_offsets) and (
+        token_offsets[end_index] is None or token_offsets[end_index][1] < character_span[1]
+    ):
         end_index += 1
+    if end_index >= len(token_offsets):
+        raise ValueError(f"Character span %r outside the range of the given tokens.")
     if end_index == start_index and token_offsets[end_index][1] > character_span[1]:
         # Looks like there was a token that should have been split, like "1854-1855", where the
         # answer is "1854".  We can't do much in this case, except keep the answer as the whole

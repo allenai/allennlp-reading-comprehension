@@ -14,6 +14,9 @@ def train_fixture(config_prefix: str) -> None:
     import allennlp_rc  # noqa F401: Needed to register the registrables.
 
     config_file = config_prefix + "experiment.json"
+    if not os.path.exists(config_file):
+        config_file = config_prefix + "experiment.jsonnet"
+
     serialization_dir = config_prefix + "serialization"
     # Train model doesn't like it if we have incomplete serialization
     # directories, so remove them if they exist.

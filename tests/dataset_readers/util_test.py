@@ -1,3 +1,4 @@
+import pytest
 from allennlp.common.testing import AllenNlpTestCase
 from allennlp.data.tokenizers import SpacyTokenizer
 
@@ -50,3 +51,45 @@ class TestReadingComprehensionUtil(AllenNlpTestCase):
         offsets = [(t.idx, t.idx + len(t.text)) for t in tokens]
         token_span = util.char_span_to_token_span(offsets, (start, end))[0]
         assert token_span == (184, 185)
+
+    def test_char_span_to_token_span_handles_none_cases(self):
+        # base case
+        offsets = [(0, 8), (10, 18), (20, 28), (30, 38), (40, 48)]
+        token_span, error = util.char_span_to_token_span(offsets, (10, 38))
+        assert token_span == (1, 3) and not error
+
+        # None in the middle
+        offsets = [(0, 8), (10, 18), None, (30, 38), (40, 48)]
+        token_span, error = util.char_span_to_token_span(offsets, (10, 38))
+        assert token_span == (1, 3) and not error
+
+        # None before
+        offsets = [None, (10, 18), (20, 28), (30, 38), (40, 48)]
+        token_span, error = util.char_span_to_token_span(offsets, (10, 38))
+        assert token_span == (1, 3) and not error
+
+        # None after
+        offsets = [(0, 8), (10, 18), (20, 28), (30, 38), None]
+        token_span, error = util.char_span_to_token_span(offsets, (10, 38))
+        assert token_span == (1, 3) and not error
+
+        # None after and we're looking for more characters
+        offsets = [(0, 8), (10, 18), (20, 28), (30, 38), None]
+        with pytest.raises(ValueError):
+            util.char_span_to_token_span(offsets, (10, 48))
+
+        # Starting at None
+        offsets = [None, (10, 18), (20, 28), (30, 38), (40, 48)]
+        token_span, error = util.char_span_to_token_span(offsets, (8, 38))
+        assert token_span == (0, 3) and error
+
+    def test_char_span_to_token_span_handles_out_of_range(self):
+        offsets = [(10, 18), (20, 28)]
+        with pytest.raises(ValueError):
+            util.char_span_to_token_span(offsets, (1, 3))
+        with pytest.raises(ValueError):
+            util.char_span_to_token_span(offsets, (1, 15))
+        with pytest.raises(ValueError):
+            util.char_span_to_token_span(offsets, (30, 38))
+        with pytest.raises(ValueError):
+            util.char_span_to_token_span(offsets, (25, 38))
