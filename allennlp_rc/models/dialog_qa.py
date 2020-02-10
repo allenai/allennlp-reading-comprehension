@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 import numpy as np
 from overrides import overrides
 import torch
@@ -61,7 +61,7 @@ class DialogQA(Model):
         residual_encoder: Seq2SeqEncoder,
         span_start_encoder: Seq2SeqEncoder,
         span_end_encoder: Seq2SeqEncoder,
-        initializer: InitializerApplicator,
+        initializer: Optional[InitializerApplicator] = None,
         dropout: float = 0.2,
         num_context_answers: int = 0,
         marker_embedding_dim: int = 10,
@@ -117,7 +117,8 @@ class DialogQA(Model):
             "embedding dim + marker dim * num context answers",
         )
 
-        initializer(self)
+        if initializer is not None:
+            initializer(self)
 
         self._span_start_accuracy = CategoricalAccuracy()
         self._span_end_accuracy = CategoricalAccuracy()

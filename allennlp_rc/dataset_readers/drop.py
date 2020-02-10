@@ -78,9 +78,6 @@ class DropReader(DatasetReader):
     token_indexers : ``Dict[str, TokenIndexer]``, optional
         We similarly use this for both the question and the passage.  See :class:`TokenIndexer`.
         Default is ``{"tokens": SingleIdTokenIndexer()}``.
-    lazy : ``bool``, optional (default=False)
-        If this is true, ``instances()`` will return an object whose ``__iter__`` method
-        reloads the dataset each time it's called. Otherwise, ``instances()`` returns a list.
     passage_length_limit : ``int``, optional (default=None)
         If specified, we will cut the passage if the length of passage exceeds this limit.
     question_length_limit : ``int``, optional (default=None)
@@ -114,14 +111,14 @@ class DropReader(DatasetReader):
         self,
         tokenizer: Tokenizer = None,
         token_indexers: Dict[str, TokenIndexer] = None,
-        lazy: bool = False,
         passage_length_limit: int = None,
         question_length_limit: int = None,
         skip_when_all_empty: List[str] = None,
         instance_format: str = "drop",
         relaxed_span_match_for_finding_labels: bool = True,
+        **kwargs,
     ) -> None:
-        super().__init__(lazy)
+        super().__init__(**kwargs)
         self._tokenizer = tokenizer or SpacyTokenizer()
         self._token_indexers = token_indexers or {"tokens": SingleIdTokenIndexer()}
         self.passage_length_limit = passage_length_limit

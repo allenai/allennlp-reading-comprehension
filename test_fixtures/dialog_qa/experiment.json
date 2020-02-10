@@ -66,8 +66,9 @@
       "hidden_size": 5,
       "num_layers": 1
     },
-    "initializer": [
-    ],
+    "initializer": {
+      "regexes": [[".*", "normal"]]
+    },
     "dropout": 0.3
   },
   "iterator": {

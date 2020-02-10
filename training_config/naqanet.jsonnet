@@ -107,12 +107,11 @@
         },
         "dropout_prob": 0.1,
         "regularizer": [
-            [
-                ".*",
-                {
+            "regexes": [
+                [".*", {
                     "type": "l2",
                     "alpha": 1e-07
-                }
+                }]
             ]
         ],
         "answering_abilities": [

@@ -40,7 +40,6 @@
     "model": {
         "type": "dialog_qa",
         "dropout": 0.2,
-        "initializer": [],
         "marker_embedding_dim": 10,
         "num_context_answers": 2,
         "phrase_layer": {

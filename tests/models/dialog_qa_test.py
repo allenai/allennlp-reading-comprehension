@@ -3,6 +3,8 @@ from allennlp.data.dataset import Batch
 
 from tests import FIXTURES_ROOT
 
+import allennlp_rc
+
 
 class DialogQATest(ModelTestCase):
     def setUp(self):

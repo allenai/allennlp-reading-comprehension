@@ -4,6 +4,8 @@ from allennlp.common.testing import ModelTestCase
 
 from tests import FIXTURES_ROOT
 
+import allennlp_rc
+
 
 class NumericallyAugmentedQaNetTest(ModelTestCase):
     def setUp(self):
