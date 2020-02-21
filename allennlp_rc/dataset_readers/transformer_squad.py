@@ -145,18 +145,14 @@ class TransformerSquadReader(DatasetReader):
         for i, c in enumerate(context):
             if c.isspace():
                 for wordpiece in self._tokenizer.tokenize(context[token_start:i]):
-                    if wordpiece.idx is None:
-                        tokenized_context.append(wordpiece)
-                    else:
-                        tokenized_context.append(
-                            wordpiece._replace(idx=wordpiece.idx + token_start)
-                        )
+                    if wordpiece.idx is not None:
+                        wordpiece.idx += token_start
+                    tokenized_context.append(wordpiece)
                 token_start = i + 1
         for wordpiece in self._tokenizer.tokenize(context[token_start:]):
-            if wordpiece.idx is None:
-                tokenized_context.append(wordpiece)
-            else:
-                tokenized_context.append(wordpiece._replace(idx=wordpiece.idx + token_start))
+            if wordpiece.idx is not None:
+                wordpiece.idx += token_start
+            tokenized_context.append(wordpiece)
 
         if first_answer_offset is None:
             (token_answer_span_start, token_answer_span_end) = (-1, -1)
@@ -172,10 +168,9 @@ class TransformerSquadReader(DatasetReader):
         # Tokenize the question
         tokenized_question = self._tokenizer.tokenize(question)
         tokenized_question = tokenized_question[: self.max_query_length]
-        tokenized_question = [
-            token._replace(type_id=self.non_content_type_id, idx=None)
-            for token in tokenized_question
-        ]
+        for token in tokenized_question:
+            token.type_id = self.non_content_type_id
+            token.idx = None
 
         # Stride over the context, making instances
         # Sequences are [CLS] question [SEP] [SEP] context [SEP], hence the - 4 for four special tokens.

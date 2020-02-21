@@ -475,7 +475,9 @@ class DialogQA(Model):
         return output_dict
 
     @overrides
-    def decode(self, output_dict: Dict[str, torch.Tensor]) -> Dict[str, Any]:
+    def make_output_human_readable(
+        self, output_dict: Dict[str, torch.Tensor]
+    ) -> Dict[str, torch.Tensor]:
         yesno_tags = [
             [self.vocab.get_token_from_index(x, namespace="yesno_labels") for x in yn_list]
             for yn_list in output_dict.pop("yesno")

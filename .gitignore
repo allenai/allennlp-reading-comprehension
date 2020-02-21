@@ -2,7 +2,7 @@
 
 .eggs/
 .mypy_cache
-allennlp.egg-info/
+allennlp_reading_comprehension.egg-info/
 build/
 dist/
 
@@ -12,6 +12,7 @@ dist/
 .envrc
 .python-version
 .idea
+/*.iml
 
 
 # jupyter notebooks
@@ -26,6 +27,7 @@ allennlp/tools/EVALB/evalb.dSYM/
 doc/_build/
 *.swp
 .DS_Store
+/output_path/
 
 
 # python
