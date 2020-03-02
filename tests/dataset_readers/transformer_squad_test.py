@@ -70,3 +70,18 @@ class TestTransformerSquadReader:
         assert instance_0_text[-1] == "[SEP]"
         assert instance_0_text[-2] == "G"
         assert instance_1_text[instances[1].fields["context_span"].span_start + stride - 1] == "G"
+
+    def test_roberta_bug(self):
+        """This reader tokenizes first by spaces, and then re-tokenizes using the wordpiece tokenizer that comes
+        with the transformer model. For RoBERTa, this produces a bug, since RoBERTa tokens are different depending
+        on whether they are preceded by a space, and the first round of tokenization cuts off the spaces. The
+        reader has a workaround for this case. This tests that workaround."""
+        reader = TransformerSquadReader(transformer_model_name="roberta-base")
+        instances = ensure_list(reader.read(FIXTURES_ROOT / "data" / "squad.json"))
+        assert instances
+        assert len(instances) == 5
+        token_text = [t.text for t in instances[1].fields["question_with_context"].tokens]
+        token_ids = [t.text_id for t in instances[1].fields["question_with_context"].tokens]
+
+        assert token_text[:3] == ["<s>", "What", "Ġsits"]
+        assert token_ids[:3] == [0, 2264, 6476]

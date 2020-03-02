@@ -138,18 +138,30 @@ class TransformerSquadReader(DatasetReader):
         first_answer_offset: Optional[int],
     ) -> Iterable[Instance]:
         # tokenize context by spaces first, and then with the wordpiece tokenizer
-        # For RoBERTa, this produces a bug where every token is marked as beginning-of-sentence. The huggingface
-        # implementation has the same bug, so we're leaving it in.
+        # For RoBERTa, this produces a bug where every token is marked as beginning-of-sentence. To fix it, we
+        # detect whether a space comes before a word, and if so, add "a " in front of the word.
+        def tokenize_slice(start: int, end: int) -> Iterable[Token]:
+            text_to_tokenize = context[start:end]
+            if start - 1 >= 0 and context[start - 1].isspace():
+                prefix = "a "  # must end in a space, and be short so we can be sure it becomes only one token
+                wordpieces = self._tokenizer.tokenize(prefix + text_to_tokenize)
+                for wordpiece in wordpieces:
+                    if wordpiece.idx is not None:
+                        wordpiece.idx -= len(prefix)
+                return wordpieces[1:]
+            else:
+                return self._tokenizer.tokenize(text_to_tokenize)
+
         tokenized_context = []
         token_start = 0
         for i, c in enumerate(context):
             if c.isspace():
-                for wordpiece in self._tokenizer.tokenize(context[token_start:i]):
+                for wordpiece in tokenize_slice(token_start, i):
                     if wordpiece.idx is not None:
                         wordpiece.idx += token_start
                     tokenized_context.append(wordpiece)
                 token_start = i + 1
-        for wordpiece in self._tokenizer.tokenize(context[token_start:]):
+        for wordpiece in tokenize_slice(token_start, len(context)):
             if wordpiece.idx is not None:
                 wordpiece.idx += token_start
             tokenized_context.append(wordpiece)
