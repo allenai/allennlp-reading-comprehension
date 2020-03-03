@@ -8,8 +8,8 @@ from allennlp.common.checks import check_dimensions_match
 from allennlp.data import Vocabulary
 from allennlp.models.model import Model
 from allennlp.modules import Highway
-from allennlp.modules import Seq2SeqEncoder, SimilarityFunction, TimeDistributed, TextFieldEmbedder
-from allennlp.modules.matrix_attention.legacy_matrix_attention import LegacyMatrixAttention
+from allennlp.modules import Seq2SeqEncoder, TimeDistributed, TextFieldEmbedder
+from allennlp.modules.matrix_attention import MatrixAttention
 from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
 from allennlp.training.metrics import BooleanAccuracy, CategoricalAccuracy
 
@@ -73,7 +73,7 @@ class BidirectionalAttentionFlow(Model):
         text_field_embedder: TextFieldEmbedder,
         num_highway_layers: int,
         phrase_layer: Seq2SeqEncoder,
-        similarity_function: SimilarityFunction,
+        matrix_attention: MatrixAttention,
         modeling_layer: Seq2SeqEncoder,
         span_end_encoder: Seq2SeqEncoder,
         dropout: float = 0.2,
@@ -88,7 +88,7 @@ class BidirectionalAttentionFlow(Model):
             Highway(text_field_embedder.get_output_dim(), num_highway_layers)
         )
         self._phrase_layer = phrase_layer
-        self._matrix_attention = LegacyMatrixAttention(similarity_function)
+        self._matrix_attention = matrix_attention
         self._modeling_layer = modeling_layer
         self._span_end_encoder = span_end_encoder
 
@@ -195,8 +195,8 @@ class BidirectionalAttentionFlow(Model):
         embedded_passage = self._highway_layer(self._text_field_embedder(passage))
         batch_size = embedded_question.size(0)
         passage_length = embedded_passage.size(1)
-        question_mask = util.get_text_field_mask(question).float()
-        passage_mask = util.get_text_field_mask(passage).float()
+        question_mask = util.get_text_field_mask(question)
+        passage_mask = util.get_text_field_mask(passage)
         question_lstm_mask = question_mask if self._mask_lstms else None
         passage_lstm_mask = passage_mask if self._mask_lstms else None
 

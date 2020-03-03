@@ -151,8 +151,8 @@ class QaNet(Model):
             string from the original passage that the model thinks is the best answer to the
             question.
         """
-        question_mask = util.get_text_field_mask(question).float()
-        passage_mask = util.get_text_field_mask(passage).float()
+        question_mask = util.get_text_field_mask(question)
+        passage_mask = util.get_text_field_mask(passage)
 
         embedded_question = self._dropout(self._text_field_embedder(question))
         embedded_passage = self._dropout(self._text_field_embedder(passage))

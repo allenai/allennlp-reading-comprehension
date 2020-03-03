@@ -19,9 +19,11 @@ local batch_size = 8;
       "type": "transformer_qa",
       "transformer_model_name": transformer_model,
   },
-  "iterator": {
+  "data_loader": {
+    "batch_sampler": {
       "type": "bucket",
       "batch_size": batch_size
+    }
   },
   "trainer": {
     "optimizer": {

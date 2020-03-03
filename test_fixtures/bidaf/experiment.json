@@ -48,7 +48,7 @@
       "hidden_size": 10,
       "num_layers": 1
     },
-    "similarity_function": {
+    "matrix_attention": {
       "type": "linear",
       "combination": "x,y,x*y",
       "tensor_1_dim": 10,
@@ -67,10 +67,12 @@
       "num_layers": 1
     }
   },
-  "iterator": {
+  "data_loader": {
+    "batch_sampler": {
     "type": "bucket",
     "padding_noise": 0.0,
     "batch_size": 40
+    },
   },
   "trainer": {
     "num_epochs": 1,

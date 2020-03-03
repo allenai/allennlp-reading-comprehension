@@ -88,12 +88,13 @@ class TestBidafPredictor(AllenNlpTestCase):
             predictor.predict_json(inputs)
 
         assert internals is not None
-        assert len(internals) == 25
+        assert len(internals) == 24
 
         linear_50_1 = internals[23]
+        print(linear_50_1)
         assert "Linear(in_features=50, out_features=1, bias=True)" in linear_50_1["name"]
-        assert len(linear_50_1["output"]) == 17
-        assert all(len(a) == 1 for a in linear_50_1["output"])
+        assert len(linear_50_1["output"][0]) == 17
+        assert all(len(a) == 1 for a in linear_50_1["output"][0])
 
         # hooks should be gone
         for module in predictor._model.modules():

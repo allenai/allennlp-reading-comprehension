@@ -116,10 +116,10 @@ class TransformerQA(Model):
         span_end_logits = span_end_logits.squeeze(-1)
 
         possible_answer_mask = torch.zeros_like(
-            get_token_ids_from_text_field_tensors(question_with_context)
+            get_token_ids_from_text_field_tensors(question_with_context), dtype=torch.bool
         )
         for i, (start, end) in enumerate(context_span):
-            possible_answer_mask[i, start : end + 1] = 1
+            possible_answer_mask[i, start : end + 1] = True
 
         span_start_logits = util.replace_masked_values(
             span_start_logits, possible_answer_mask, -1e32

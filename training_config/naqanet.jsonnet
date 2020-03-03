@@ -121,21 +121,13 @@
             "counting"
         ]
     },
-    "iterator": {
-        "type": "bucket",
-        "sorting_keys": [
-            [
-                "passage",
-                "num_tokens"
-            ],
-            [
-                "question",
-                "num_tokens"
-            ]
-        ],
-        "batch_size": 16,
-        "max_instances_in_memory": 600
-    },
+  "data_loader": {
+    "batch_sampler": {
+      "type": "bucket",
+      "batch_size": 16
+    }
+  },
+
     "trainer": {
         "num_epochs": 50,
         "grad_norm": 5,

@@ -71,15 +71,11 @@
     },
     "dropout": 0.3
   },
-  "iterator": {
-    "type": "bucket",
+  "data_loader": {
     "batch_size": 10,
-    "max_instances_in_memory": 1000
   },
-  "validation_iterator": {
-    "type": "bucket",
+  "validation_data_loader": {
     "batch_size": 3,
-    "max_instances_in_memory": 1000
   },
   "trainer": {
     "num_epochs": 1,

@@ -8,7 +8,7 @@ from allennlp.common import Params
 from allennlp.common.testing import ModelTestCase
 from allennlp.data import DatasetReader, Vocabulary
 from allennlp.data.dataset import Batch
-from allennlp.data.iterators import BasicIterator
+from allennlp.data import DataLoader
 from allennlp.models import Model
 from allennlp.training import Trainer
 
@@ -58,11 +58,9 @@ class QaNetTest(ModelTestCase):
         vocab = Vocabulary.from_instances(self.instances)
         model = Model.from_params(vocab=vocab, params=params["model"]).cuda()
         optimizer = torch.optim.SGD(self.model.parameters(), 0.01, momentum=0.9)
-        multigpu_iterator = BasicIterator(batch_size=4)
-        multigpu_iterator.index_with(model.vocab)
-        trainer = Trainer(
-            model, optimizer, multigpu_iterator, self.instances, num_epochs=2, cuda_device=[0, 1]
-        )
+        self.instances.index_with(model.vocab)
+        loader = DataLoader(self.instances, batch_size=4)
+        trainer = Trainer(model, optimizer, loader, num_epochs=2, cuda_device=[0, 1])
         trainer.train()
 
     def test_batch_predictions_are_consistent(self):

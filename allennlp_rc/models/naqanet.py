@@ -160,8 +160,8 @@ class NumericallyAugmentedQaNet(Model):
         metadata: List[Dict[str, Any]] = None,
     ) -> Dict[str, torch.Tensor]:
 
-        question_mask = util.get_text_field_mask(question).float()
-        passage_mask = util.get_text_field_mask(passage).float()
+        question_mask = util.get_text_field_mask(question)
+        passage_mask = util.get_text_field_mask(passage)
         embedded_question = self._dropout(self._text_field_embedder(question))
         embedded_passage = self._dropout(self._text_field_embedder(passage))
         embedded_question = self._highway_layer(self._embedding_proj_layer(embedded_question))
@@ -356,7 +356,7 @@ class NumericallyAugmentedQaNet(Model):
         if "addition_subtraction" in self.answering_abilities:
             # Shape: (batch_size, # of numbers in the passage)
             number_indices = number_indices.squeeze(-1)
-            number_mask = (number_indices != -1).long()
+            number_mask = number_indices != -1
             clamped_number_indices = util.replace_masked_values(number_indices, number_mask, 0)
             encoded_passage_for_numbers = torch.cat(
                 [modeled_passage_list[0], modeled_passage_list[3]], dim=-1
@@ -422,7 +422,7 @@ class NumericallyAugmentedQaNet(Model):
                     gold_passage_span_ends = answer_as_passage_spans[:, :, 1]
                     # Some spans are padded with index -1,
                     # so we clamp those paddings to 0 and then mask after `torch.gather()`.
-                    gold_passage_span_mask = (gold_passage_span_starts != -1).long()
+                    gold_passage_span_mask = gold_passage_span_starts != -1
                     clamped_gold_passage_span_starts = util.replace_masked_values(
                         gold_passage_span_starts, gold_passage_span_mask, 0
                     )
@@ -457,7 +457,7 @@ class NumericallyAugmentedQaNet(Model):
                     gold_question_span_ends = answer_as_question_spans[:, :, 1]
                     # Some spans are padded with index -1,
                     # so we clamp those paddings to 0 and then mask after `torch.gather()`.
-                    gold_question_span_mask = (gold_question_span_starts != -1).long()
+                    gold_question_span_mask = gold_question_span_starts != -1
                     clamped_gold_question_span_starts = util.replace_masked_values(
                         gold_question_span_starts, gold_question_span_mask, 0
                     )
@@ -490,7 +490,7 @@ class NumericallyAugmentedQaNet(Model):
                 elif answering_ability == "addition_subtraction":
                     # The padded add-sub combinations use 0 as the signs for all numbers, and we mask them here.
                     # Shape: (batch_size, # of combinations)
-                    gold_add_sub_mask = (answer_as_add_sub_expressions.sum(-1) > 0).float()
+                    gold_add_sub_mask = answer_as_add_sub_expressions.sum(-1) > 0
                     # Shape: (batch_size, # of numbers in the passage, # of combinations)
                     gold_add_sub_signs = answer_as_add_sub_expressions.transpose(1, 2)
                     # Shape: (batch_size, # of numbers in the passage, # of combinations)
@@ -518,7 +518,7 @@ class NumericallyAugmentedQaNet(Model):
                     # Count answers are padded with label -1,
                     # so we clamp those paddings to 0 and then mask after `torch.gather()`.
                     # Shape: (batch_size, # of count answers)
-                    gold_count_mask = (answer_as_counts != -1).long()
+                    gold_count_mask = answer_as_counts != -1
                     # Shape: (batch_size, # of count answers)
                     clamped_gold_counts = util.replace_masked_values(
                         answer_as_counts, gold_count_mask, 0

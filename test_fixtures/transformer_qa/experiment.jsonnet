@@ -22,8 +22,7 @@ local number_of_dev_instances = 5;
         "type": "transformer_qa",
         "transformer_model_name": transformer_model,
     },
-    "iterator": {
-        "type": "basic",
+    "data_loader": {
         "batch_size": batch_size
     },
     "trainer": {

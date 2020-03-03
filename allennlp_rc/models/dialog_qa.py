@@ -221,9 +221,9 @@ class DialogQA(Model):
         embedded_passage = self._variational_dropout(self._text_field_embedder(passage))
         passage_length = embedded_passage.size(1)
 
-        question_mask = util.get_text_field_mask(question, num_wrapping_dims=1).float()
+        question_mask = util.get_text_field_mask(question, num_wrapping_dims=1)
         question_mask = question_mask.reshape(total_qa_count, max_q_len)
-        passage_mask = util.get_text_field_mask(passage).float()
+        passage_mask = util.get_text_field_mask(passage)
 
         repeated_passage_mask = passage_mask.unsqueeze(1).repeat(1, max_qa_count, 1)
         repeated_passage_mask = repeated_passage_mask.view(total_qa_count, passage_length)
@@ -328,9 +328,11 @@ class DialogQA(Model):
         mask = repeated_passage_mask.reshape(
             total_qa_count, passage_length, 1
         ) * repeated_passage_mask.reshape(total_qa_count, 1, passage_length)
-        self_mask = torch.eye(passage_length, passage_length, device=self_attention_matrix.device)
+        self_mask = torch.eye(
+            passage_length, passage_length, dtype=torch.bool, device=self_attention_matrix.device
+        )
         self_mask = self_mask.reshape(1, passage_length, passage_length)
-        mask = mask * (1 - self_mask)
+        mask = mask & ~self_mask
 
         self_attention_probs = util.masked_softmax(self_attention_matrix, mask)
 
@@ -388,7 +390,7 @@ class DialogQA(Model):
             self._span_accuracy(
                 best_span[:, 0:2],
                 torch.stack([span_start, span_end], -1).view(total_qa_count, 2),
-                mask=qa_mask.unsqueeze(1).expand(-1, 2).long(),
+                mask=qa_mask.unsqueeze(1).expand(-1, 2),
             )
             # add a select for the right span to compute loss
             gold_span_end_loc = []

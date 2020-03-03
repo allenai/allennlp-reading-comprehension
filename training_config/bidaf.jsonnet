@@ -56,7 +56,7 @@
       "hidden_size": 100,
       "num_layers": 1
     },
-    "similarity_function": {
+    "matrix_attention": {
       "type": "linear",
       "combination": "x,y,x*y",
       "tensor_1_dim": 200,
@@ -79,10 +79,11 @@
     },
     "dropout": 0.2
   },
-  "iterator": {
-    "type": "bucket",
-    "sorting_keys": [["passage", "num_tokens"], ["question", "num_tokens"]],
-    "batch_size": 40
+  "data_loader": {
+    "batch_sampler": {
+      "type": "bucket",
+      "batch_size": 40
+    }
   },
 
   "trainer": {

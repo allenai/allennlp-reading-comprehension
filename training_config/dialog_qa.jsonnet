@@ -22,21 +22,13 @@
             }
         }
     },
-    "iterator": {
-        "type": "bucket",
-        "batch_size": 10,
-        "max_instances_in_memory": 1000,
-        "sorting_keys": [
-            [
-                "question",
-                "num_fields"
-            ],
-            [
-                "passage",
-                "num_tokens"
-            ]
-        ]
-    },
+  "data_loader": {
+    "batch_sampler": {
+      "type": "bucket",
+      "batch_size": 10
+    }
+  },
+
     "model": {
         "type": "dialog_qa",
         "dropout": 0.2,
@@ -115,19 +107,11 @@
         "patience": 10,
         "validation_metric": "+f1"
     },
-    "validation_iterator": {
-        "type": "bucket",
-        "batch_size": 3,
-        "max_instances_in_memory": 1000,
-        "sorting_keys": [
-            [
-                "question",
-                "num_fields"
-            ],
-            [
-                "passage",
-                "num_tokens"
-            ]
-        ]
+  "validation_data_loader": {
+    "batch_sampler": {
+      "type": "bucket",
+      "batch_size": 3
     }
+  },
+
 }
