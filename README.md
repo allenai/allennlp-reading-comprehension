@@ -1,3 +1,7 @@
+# Deprecation Notice
+
+We don't use this repository anymore. All of our models now live at https://github.com/allenai/allennlp-models.
+
 # allennlp-reading-comprehension
 [![Build status](https://github.com/allenai/allennlp-reading-comprehension/workflows/CI/badge.svg)](https://github.com/allenai/allennlp-reading-comprehension/actions?workflow=CI)
 
